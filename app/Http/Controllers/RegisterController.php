@@ -22,6 +22,7 @@ class RegisterController extends Controller
             'name'     => ['required', 'string', 'min:3', 'max:255'],
             'email'    => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'message'  => ['nullable', 'string', 'max:1000'],
         ], [
             'email.unique'       => 'Este correo electrónico ya se encuentra registrado.',
             'password.confirmed' => 'Las contraseñas ingresadas no coinciden.',

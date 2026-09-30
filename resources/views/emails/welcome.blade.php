@@ -15,6 +15,16 @@
                             <p style="color:#475569; font-size:16px;">
                                 Gracias por registrarte. Tu cuenta ha sido creada con éxito.
                             </p>
+
+                            @if(!empty($mensaje))
+                            <div style="margin-top:20px; padding:16px; background:#f8fafc; border-left:4px solid #3b82f6; border-radius:0 6px 6px 0;">
+                                <p style="margin:0 0 8px; color:#1e293b; font-size:14px; font-weight:600;">Tu mensaje:</p>
+                                <blockquote style="margin:0; color:#475569; font-size:15px; font-style:italic;">
+                                    "{{ $mensaje }}"
+                                </blockquote>
+                            </div>
+                            @endif
+
                             <div style="margin-top:20px; padding:12px; background:#e0f2fe; color:#0369a1; border-radius:6px; font-weight:bold;">
                                 Registro completado exitosamente.
                             </div>

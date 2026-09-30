@@ -97,6 +97,24 @@
 
         <br>
 
+        <div>
+            <label>Mensaje (opcional):</label>
+            <br>
+
+            <textarea
+                name="message"
+                rows="4"
+                style="width: 100%; max-width: 400px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+                placeholder="Cuéntanos por qué te registras...">{{ old('message') }}</textarea>
+
+            @error('message')
+                <br>
+                <span class="error">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <br>
+
         <button type="submit">
             Registrarse
         </button>
