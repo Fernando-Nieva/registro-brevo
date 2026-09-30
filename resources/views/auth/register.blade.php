@@ -22,6 +22,12 @@
 
     <h2>Formulario de Registro</h2>
 
+    @if(session('success'))
+        <div style="background:#dcfce7; color:#166534; padding:12px 16px; border-radius:6px; margin-bottom:20px; border:1px solid #bbf7d0; font-weight:500;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form action="{{ route('register.store') }}" method="POST">
 
         @csrf
