@@ -21,11 +21,12 @@ class WelcomeUserMail extends Mailable implements ShouldQueue
 
     public function build(): self
     {
-        return $this->subject('¡Bienvenido a nuestra plataforma!')
+        return $this->subject('Nuevo registro: ' . $this->userData['name'])
                     ->view('emails.welcome')
                     ->with([
-                        'nombre'  => $this->userData['name'],
-                        'mensaje' => $this->userData['message'] ?? null,
+                        'nombre'        => $this->userData['name'],
+                        'email_usuario' => $this->userData['email'],
+                        'mensaje'       => $this->userData['message'] ?? null,
                     ]);
     }
 }
