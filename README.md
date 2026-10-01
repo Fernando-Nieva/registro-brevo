@@ -7,7 +7,7 @@ Proyecto Laravel 13 para registro de usuarios con notificación automática por 
 Sistema de registro de usuarios que:
 - Permite registrar usuarios con nombre, email, contraseña y mensaje opcional
 - Valida datos en servidor (unique email, contraseña confirmada, etc.)
-- **Envía notificación SIEMPRE al administrador** (nieva.cronos@gmail.com) cuando alguien se registra
+- **Envía notificación SIEMPRE al administrador** (email configurado en MAIL_FROM_ADDRESS) cuando alguien se registra
 - Incluye en el email: nombre del usuario, email registrado y mensaje opcional
 - Usa colas (queue) para procesamiento asíncrono de emails
 - Almacena usuarios en SQLite
@@ -31,15 +31,15 @@ Sistema de registro de usuarios que:
 MAIL_MAILER=smtp
 MAIL_HOST=smtp-relay.brevo.com
 MAIL_PORT=587
-MAIL_USERNAME=b7c2ac001@smtp-brevo.com    # SMTP username de Brevo (NO tu email)
-MAIL_PASSWORD=xsmtpsib-xxxxxxxxxxxxxxxx    # SMTP Key generada en Brevo
+MAIL_USERNAME=TU_SMTP_USERNAME_BREVO       # SMTP username de Brevo (NO tu email personal)
+MAIL_PASSWORD=TU_SMTP_KEY_BREVO            # SMTP Key generada en Brevo (xsmtpsib-...)
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=nieva.cronos@gmail.com   # Sender verificado en Brevo
-MAIL_FROM_NAME="Utn Tup"
+MAIL_FROM_ADDRESS=TU_EMAIL_VERIFICADO      # Sender verificado en Brevo (ej: admin@tudominio.com)
+MAIL_FROM_NAME="TU_NOMBRE_APP"
 ```
 
 ### Requisitos en Brevo
-1. **Sender verificado**: Settings → Senders → `nieva.cronos@gmail.com` (check verde)
+1. **Sender verificado**: Settings → Senders → `TU_EMAIL_VERIFICADO` (check verde)
 2. **SMTP Access ON**: Settings → SMTP & API → SMTP Access = ON
 3. **IP autorizada**: Settings → SMTP & API → Authorized IPs → agregar tu IP pública
 4. **SMTP Key**: Settings → SMTP & API → Generate SMTP Key (usa esa key en MAIL_PASSWORD)
@@ -79,7 +79,7 @@ php artisan queue:work
 ### 5. Probar
 - Abrir: http://127.0.0.1:8000/register
 - Completar formulario con cualquier email
-- Enviar → Verificar que llega email a **nieva.cronos@gmail.com**
+- Enviar → Verificar que llega email a **MAIL_FROM_ADDRESS**
 
 ## 📁 Estructura Clave
 
@@ -108,7 +108,7 @@ Usuario envía POST /register
 RegisterController::store()
   - Valida datos
   - Crea User en BD
-  - Mail::to('nieva.cronos@gmail.com')->send(new WelcomeUserMail($data))
+  - Mail::to(env('MAIL_FROM_ADDRESS'))->send(new WelcomeUserMail($data))
          ↓
 Job encolado en tabla 'jobs' (queue database)
          ↓
@@ -116,7 +116,7 @@ php artisan queue:work (daemon)
   - Procesa job
   - Envía vía Brevo SMTP
          ↓
-Email entregado a nieva.cronos@gmail.com
+Email entregado a MAIL_FROM_ADDRESS
 ```
 
 ## 🐛 Problemas Comunes y Soluciones
@@ -145,4 +145,4 @@ MIT License - Proyecto educativo UTN Tup 2026
 
 ---
 
-**Nota**: El email **SIEMPRE se envía a `nieva.cronos@gmail.com`** (admin) independientemente del email que use el usuario al registrarse. Esto permite al administrador recibir notificaciones de todos los registros.
+**Nota**: El email **SIEMPRE se envía a `MAIL_FROM_ADDRESS`** (admin) independientemente del email que use el usuario al registrarse. Esto permite al administrador recibir notificaciones de todos los registros.
